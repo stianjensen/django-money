@@ -110,7 +110,7 @@ class MoneyFieldProxy:
             value is not None
             and self.field._currency_field.null
             and not isinstance(value, MONEY_CLASSES)
-            and not obj.__dict__[self.currency_field_name]
+            and not obj.__dict__.get(self.currency_field_name)
         ):
             # For nullable fields we need either both NULL amount and currency or both NOT NULL
             raise ValueError("Missing currency value")
