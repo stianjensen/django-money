@@ -108,7 +108,7 @@ class MoneyFieldProxy:
     def __set__(self, obj, value):  # noqa
         if (
             value is not None
-            and self.field._currency_field.null
+            and getattr(self.field.model, self.currency_field_name).field.null
             and not isinstance(value, MONEY_CLASSES)
             and not obj.__dict__.get(self.currency_field_name)
         ):
