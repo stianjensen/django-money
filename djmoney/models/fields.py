@@ -266,6 +266,12 @@ class MoneyField(models.DecimalField):
         """
         Adds CurrencyField instance to a model class.
         """
+        currency_field_name = get_currency_field_name(name, self)
+        if currency_field := getattr(cls, currency_field_name, None):
+            print('yo2')
+            self._currency_field = currency_field.field
+            return
+
         currency_field = CurrencyField(
             price_field=self,
             max_length=self.currency_max_length,
@@ -275,7 +281,6 @@ class MoneyField(models.DecimalField):
             null=self.null,
         )
         currency_field.creation_counter = self.creation_counter - 1
-        currency_field_name = get_currency_field_name(name, self)
         cls.add_to_class(currency_field_name, currency_field)
         self._currency_field = currency_field
 
